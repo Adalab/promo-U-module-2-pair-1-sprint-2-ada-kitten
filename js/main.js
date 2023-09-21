@@ -13,6 +13,7 @@ const btnAdd = document.querySelector('.js-btn-add');
 const inputDesc = document.querySelector('.js-input-desc');
 const inputPhoto = document.querySelector('.js-input-photo');
 const inputName = document.querySelector('.js-input-name');
+const inputRace = document.querySelector('.js-input-race');
 const labelMessageError = document.querySelector('.js-label-error');
 
 const btnCancel = document.querySelector('.js-btn-cancel');
@@ -97,6 +98,16 @@ function addNewKitten(event) {
     labelMessageError.innerHTML = '¡Uy! parece que has olvidado algo';
     labelMessageError.classList.add('error-form');
   } else {
+  const newKittenDataObject = {
+    name: inputName.value,
+    desc: inputDesc.value,
+    race: inputRace.value,
+    url: inputPhoto.value,
+  }
+  kittenDataList.push(newKittenDataObject);
+  } if (valueDesc === 'inputDesc' || valuePhoto === 'inputPhoto' || valueName === 'inputName') {
+    labelMessageError.innerHTML = 'Mola! Un nuevo gatito en Adalab!';
+    labelMessageError.classList.add('error-form');
   }
 }
 
