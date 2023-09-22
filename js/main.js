@@ -52,6 +52,8 @@ const kittenDataList = [kittenData_1, kittenData_2, kittenData_3];
 
 //FUNCIONES
 
+//Pintar gatitos
+
 function renderRace(race) {
   if (race === '') {
     return `Uy que despiste, no sabemos su raza`;
@@ -88,6 +90,8 @@ function renderKittenList(kittenDataList) {
 
 renderKittenList(kittenDataList);
 
+//Añadir nuevos gatitos
+
 function addNewKitten(event) {
   event.preventDefault();
   const valueDesc = inputDesc.value;
@@ -97,18 +101,17 @@ function addNewKitten(event) {
   if (valueDesc === '' || valuePhoto === '' || valueName === '') {
     labelMessageError.innerHTML = '¡Uy! parece que has olvidado algo';
     labelMessageError.classList.add('error-form');
-  } else {
+  } else if (valueDesc !== '' || valuePhoto !== '' || valueName !== '')
+    labelMessageError.innerHTML = 'Mola! Un nuevo gatito en Adalab!';
+  labelMessageError.classList.add('error-form');
   const newKittenDataObject = {
     name: inputName.value,
     desc: inputDesc.value,
     race: inputRace.value,
     url: inputPhoto.value,
-  }
+  };
   kittenDataList.push(newKittenDataObject);
-  } if (valueDesc === 'inputDesc' || valuePhoto === 'inputPhoto' || valueName === 'inputName') {
-    labelMessageError.innerHTML = 'Mola! Un nuevo gatito en Adalab!';
-    labelMessageError.classList.add('error-form');
-  }
+  renderKittenList(kittenDataList);
 }
 
 function showNewCatForm() {
@@ -127,6 +130,8 @@ function handleClickNewCatForm(event) {
   }
 }
 
+//Buscar gatitos
+
 const filterKitten = (event) => {
   event.preventDefault();
   deleteList();
@@ -137,11 +142,13 @@ function addKittens() {
   let descrSearch = inputSearch.value;
   if (descrSearch) {
     msjError.innerHTML = '';
-    for (const kittenItem of kittenDataList) {
-      if (kittenItem.desc.includes(descrSearch)) {
-        listElement.innerHTML += renderKitten(kittenItem);
-      }
-    }
+    filter //HACERLO MAÑANA CON LA FUNCION kittenDataList
+    renderKittenList
+    // for (const kittenItem of kittenDataList) {
+    //   if (kittenItem.desc.includes(descrSearch)) {
+    //     listElement.innerHTML += renderKitten(kittenItem);
+    //   }
+    // }
   } else {
     msjError.innerHTML = 'Tienes que escribir algo en el buscador';
   }
@@ -171,3 +178,4 @@ plusCircle.addEventListener('click', handleClickNewCatForm);
 btnSearch.addEventListener('click', filterKitten);
 
 //const descrSearch = inputSearch.value;
+
