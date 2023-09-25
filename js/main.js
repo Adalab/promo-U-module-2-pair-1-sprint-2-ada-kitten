@@ -48,7 +48,20 @@ const kittenData_3 = {
   race: 'Maine Coon',
   url: 'https://dev.adalab.es/maine-coon-cat.webp',
 };
-const kittenDataList = [kittenData_1, kittenData_2, kittenData_3];
+// const kittenDataList = [kittenData_1, kittenData_2, kittenData_3];
+
+const GITHUB_USER = 'ainhoadlhs';
+const SERVER_URL = `https://dev.adalab.es/api/kittens/${GITHUB_USER}`;
+
+let kittenDataList = [];
+
+fetch(SERVER_URL)
+  .then((response) => response.json())
+  .then((dataApi) => {
+    kittenDataList = dataApi.results;
+    renderKittenList(kittenDataList);
+  });
+
 
 //FUNCIONES
 
@@ -66,7 +79,7 @@ function renderKitten(kittenData) {
   <article>
     <img
       class="card_img" 
-      src="${kittenData.url}"
+      src="${kittenData.image}"
       alt="siames-cat"
     />
     <h3 class="card_title">${kittenData.name.toUpperCase()}</h3>
@@ -138,17 +151,30 @@ const filterKitten = (event) => {
   addKittens();
 };
 
+// function addKittens() {
+//   let descrSearch = inputSearch.value;
+//   if (descrSearch) {
+//     msjError.innerHTML = '';
+//     filter //HACERLO MAÑANA CON LA FUNCION kittenDataList
+//     renderKittenList
+//     // for (const kittenItem of kittenDataList) {
+//     //   if (kittenItem.desc.includes(descrSearch)) {
+//     //     listElement.innerHTML += renderKitten(kittenItem);
+//     //   }
+//     // }
+//   } else {
+//     msjError.innerHTML = 'Tienes que escribir algo en el buscador';
+//   }
+// }
 function addKittens() {
   let descrSearch = inputSearch.value;
   if (descrSearch) {
     msjError.innerHTML = '';
-    filter //HACERLO MAÑANA CON LA FUNCION kittenDataList
-    renderKittenList
-    // for (const kittenItem of kittenDataList) {
-    //   if (kittenItem.desc.includes(descrSearch)) {
-    //     listElement.innerHTML += renderKitten(kittenItem);
-    //   }
-    // }
+    for (const kittenItem of kittenDataList) {
+      if (kittenItem.desc.includes(descrSearch)) {
+        listElement.innerHTML += renderKitten(kittenItem);
+      }
+    }
   } else {
     msjError.innerHTML = 'Tienes que escribir algo en el buscador';
   }
