@@ -55,13 +55,29 @@ const SERVER_URL = `https://dev.adalab.es/api/kittens/${GITHUB_USER}`;
 
 let kittenDataList = [];
 
-fetch(SERVER_URL)
-  .then((response) => response.json())
-  .then((dataApi) => {
-    kittenDataList = dataApi.results;
-    renderKittenList(kittenDataList);
-  });
+const kittenListStored = JSON.parse(localStorage.getItem('kittenDataList'));
 
+// fetch(SERVER_URL)
+//   .then((response) => response.json())
+//   .then((dataApi) => {
+//     kittenDataList = dataApi.results;
+//     renderKittenList(kittenDataList);
+//   });
+
+if (kittenListStored === '') {
+  renderKittenList(kittenDataList);
+} else {
+  fetch(SERVER_URL)
+    .then((response) => response.json())
+    .then((dataApi) => {
+      kittenDataList = dataApi.results;
+      renderKittenList(kittenDataList);
+      localStorage.setItem('renderLocalKitten', JSON.stringify(kittenDataList));
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 
 //FUNCIONES
 
@@ -123,8 +139,25 @@ function addNewKitten(event) {
     race: inputRace.value,
     url: inputPhoto.value,
   };
-  kittenDataList.push(newKittenDataObject);
-  renderKittenList(kittenDataList);
+
+  fetch(`https://dev.adalab.es/api/kittens/${GITHUB_USER}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newKittenDataObject),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        kittenDataList.push(newKittenDataObject);
+        renderKittenList(kittenDataList);
+      } else if (valueDesc === '' || valuePhoto === '' || valueName === '') {
+        labelMessageError.innerHTML = '¡Uy! parece que has olvidado algo';
+      }
+      localStorage.setItem(
+        'renderLocalKitten',
+        JSON.stringify(newKittenDataObject)
+      );
+    });
 }
 
 function showNewCatForm() {
@@ -204,4 +237,3 @@ plusCircle.addEventListener('click', handleClickNewCatForm);
 btnSearch.addEventListener('click', filterKitten);
 
 //const descrSearch = inputSearch.value;
-
