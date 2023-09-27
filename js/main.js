@@ -90,30 +90,64 @@ function renderRace(race) {
     return race;
   }
 }
-function renderKitten(kittenData) {
-  const kitten = `<li class="card">
-  <article>
-    <img
-      class="card_img" 
-      src="${kittenData.image}"
-      alt="siames-cat"
-    />
-    <h3 class="card_title">${kittenData.name.toUpperCase()}</h3>
-    <h4 class="card_race">${renderRace(kittenData.race)}</h4>
-    <p class="card_description">
-      ${kittenData.desc}
-    </p>
-  </article>
-  </li>`;
+// function renderKitten(kittenData) {
+//   const kitten = `<li class="card">
+//   <article>
+//     <img
+//       class="card_img" 
+//       src="${kittenData.image}"
+//       alt="siames-cat"
+//     />
+//     <h3 class="card_title">${kittenData.name.toUpperCase()}</h3>
+//     <h4 class="card_race">${renderRace(kittenData.race)}</h4>
+//     <p class="card_description">
+//       ${kittenData.desc}
+//     </p>
+//   </article>
+//   </li>`;
 
-  return kitten;
+//   return kitten;
+// }
+
+function renderKitten(kittenData) {
+    const liElement = document.createElement('li');
+    liElement.setAttribute('class', 'card')
+
+    const articleElement = document.createElement('article');
+    liElement.appendChild(articleElement);
+
+    const imgElement = document.createElement('img');
+    imgElement.createTextNode(kittenData.image);
+    imgElement.setAttribute('class', 'card_img');
+    imgElement.setAttribute('src', 'url.img');
+    imgElement.setAttribute('alt', 'photo-cat');
+    articleElement.appendChild(imgElement);
+
+    const h3Element = document.createElement('h3');
+    h3Element.createTextNode(kittenData.name);
+    h3Element.setAttribute('class', 'card_title');
+    articleElement.appendChild(h3Element);
+
+    const h4Element = document.createElement('h4');
+    h4Element.createTextNode(kittenData.race);
+    h4Element.setAttribute('class', 'card_race');
+    articleElement.appendChild(h4Element);
+
+    const pElement = document.createElement('p');
+    pElement.createTextNode(kittenData.desc);
+    pElement.setAttribute('class', 'card_description');
+    articleElement.appendChild(pElement);
+
+    return liElement;
 }
+
+
 
 function renderKittenList(kittenDataList) {
   listElement.innerHTML = '';
 
   for (const kittenItem of kittenDataList) {
-    listElement.innerHTML += renderKitten(kittenItem);
+    listElement.appendChild (renderKitten(kittenItem));
   }
 }
 
